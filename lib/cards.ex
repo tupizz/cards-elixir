@@ -77,8 +77,7 @@ defmodule Cards do
   ## Examples
 
       iex> deck = Cards.create_deck
-      iex> contains = Cards.contains? deck, "Ace of Spades"
-      iex> contains
+      iex> Cards.contains? deck, "Ace of Spades"
       true
   
   """
