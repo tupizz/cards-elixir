@@ -1,26 +1,51 @@
 defmodule Cards do
+  @moduledoc """
+    Provides methods for creating and handling a deck of cards
+  """
 
+  @doc """
+    Create a cartesian combination of cards
+  """
   def create_deck do
     values = ["Ace", "Two", "Three", "Four", "Five"]
     suits = ["Spades", "Club", "Hearts", "Diamonds"]
 
     # Cartesian projection N x M
-    for suit <- suits, value <- values do
-      "#{suit} of #{value}"
+    for value <- values, suit <- suits  do
+      "#{value} of #{suit}"
     end
   end
 
-  # Returns a tuple => { *my_hand*, *rest* }
-  #
-  # iex(81)> {my_hand, rest} = Cards.deal(deck, 2)  ==> Pattern matching
-  # With this syntax I destructure the resut of Deal
-  #
+  @doc """
+    Receive a deck and a numver of cards to deal
+
+  ## Examples
+
+      iex> deck = Cards.create_deck
+      iex> {hand, restDeck} = Cards.deal(deck, 1)
+      iex> hand
+      ["Ace of Spades"]
+  
+  """
   def deal(deck, number_of_cards) do
     Enum.split(deck, number_of_cards)
   end
 
+  @doc """
+    Create a hand given number of cards(`hand_size`) you want in a hand
+  """
+  def create_hand(hand_size) do
+    {hand,_} = Cards.create_deck
+                |> Cards.shuffle
+                # o hand size é como segundo argumento, o primeiro é o retorno do shuffle
+                |> Cards.deal(hand_size)
 
-  # https://hexdocs.pm/elixir/Enum.html#shuffle/1
+    hand
+  end
+
+  @doc """
+    Create a cartesian combination of cards
+  """
   def shuffle(deck) do
     Enum.shuffle(deck)
   end
@@ -46,6 +71,17 @@ defmodule Cards do
     end
   end
 
+  @doc """
+    Determines whether a deck contains a given cards
+
+  ## Examples
+
+      iex> deck = Cards.create_deck
+      iex> contains = Cards.contains? deck, "Ace of Spades"
+      iex> contains
+      true
+  
+  """
   def contains?(deck, item) do
     Enum.member?(deck, item)
   end
