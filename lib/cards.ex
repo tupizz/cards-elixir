@@ -16,6 +16,33 @@ defmodule Cards do
     end
   end
 
+  def working_with_lists do 
+    #  keyword list
+    colors = [{:user, "tupizz"}, {:primary, "morris"}]
+    colors[:primary]
+  end
+
+  def create_object_deck do 
+    {hand, rest} = Cards.create_deck
+                |> Cards.shuffle
+                |> Cards.deal(3)
+
+    # Se a chave for um :Atom então usa-se 
+    # a notação key: value, caso contrário, key => value
+    map = %{ "handed" => hand, "rested" => rest, a: 1, b: 2}
+    colors = %{ primary: "red" } # imutabilidade
+    colors_new = Map.put(colors, :primary, "blue")
+    colors_new_other_syntax = %{ colors | primary: "blue" }
+
+    # map.hand --> nao consigo acessar assim, pq não é um atom, então acesso por:  map["hand"]
+    # map.a --> consigo acessar pq é um atom
+
+    # de dentro de map pego handed e atribuo a hand
+    %{ "handed" => hand_return } = map 
+
+    Map.put(colors, :secondary_color, "green")
+  end
+
   @doc """
     Receive a deck and a numver of cards to deal
 
